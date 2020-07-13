@@ -1,0 +1,46 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-09 16:18:02
+ * @LastEditTime: 2020-07-09 16:26:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\eventLoop.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  Promise.resolve().then(() => {
+    console.log("Promise1");
+    setTimeout(() => {
+      console.log("setTimeout2");
+    }, 0);
+  });
+  setTimeout(() => {
+    console.log("setTimeout1");
+    Promise.resolve().then(() => {
+      console.log("Promise2");
+    });
+  }, 0);
+  console.log("start");
+  /*
+   1.整个脚本作为第一个宏任务执行
+   2.先执行同步代码 打印 start
+   3.promise 放入微任务队列
+   4.setTimeout 放入宏任务 延时队列
+   5.执行完同步任务后 执行微任务  promise 此时会打印 Promise1 再把setTimeout放入 宏任务
+   6. 执行延时队列中 的 setTimeout 执行 同步代码 打印 setTimeout1 把 Promise 放入 微任务 打印 Promise2
+   7.执行 setTimeout 打印 setTimeout2
+   start
+   Promise1
+   setTimeout1
+   Promise2
+   setTimeout2
+*/
+</script>

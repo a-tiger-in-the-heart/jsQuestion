@@ -1,0 +1,82 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-08 16:31:50
+ * @LastEditTime: 2020-07-08 18:38:27
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\inherit.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   
+</body>
+</html>
+<script>
+   // 1.原型链继承
+   function Person() {
+      this.name = name
+   }
+   Person.prototype.getName = function () {
+      console.log(this.name)
+   }
+   function Child() {
+
+   }
+   Child.prototype = new Person()
+   const person1 = new Child('lili')
+   const person2 = new Child('hhaa')
+   person1.getName()
+   person2.getName()
+   // 2.借用构造函数(经典继承)
+      // function Parent(name) {
+      //    this.name = name
+         
+      // }
+      // // Parent.prototype.getName = function () {
+      // //    console.log(this.name);
+      // // }
+      // function Child (name) {
+      //    Parent.call(this,name)
+      // }
+      // const child1 = new Child('liyang')
+      // console.log(child1.name);
+      // const child2 = new Child('lining')
+      // console.log(child2.name);
+   // 3.组合继承
+   // 组合继承 用 父级构造函数 实例出来的对象 作为 子函数的 原型对象 原型对象的构造函数设置为 子构造函数 
+   // function Father(name) {
+   //    this.name = name
+   //    this.colors = ['yellow','red', 'blue']
+   // }
+   // Father.prototype.getName = function() {
+   //    console.log(this.name);
+   // }
+   // function Son (name,age) {
+   //    Father.call(this,name)
+   //    this.age = age
+   // }
+   // Son.prototype = new Father()
+   // Son.prototype.constructor = Son
+   // const son1 = new Son('Bob','11')
+   // son1.colors.push('orange')
+   // console.log(son1.name);
+   // console.log(son1.age);
+   // console.log(son1.colors);
+   // const son2 = new Son('lina','18')
+   // son2.colors.push('pink')
+   // console.log(son2.name);
+   // console.log(son2.age);
+   // console.log(son2.colors);
+   // 4.原型式继承 (将传入的对象作为创建的对象的原型) 等于ES5 Object.create 的模拟实现
+      function createObj(o) {
+         function F () {}
+         F.prototype = o
+         return new F()
+      }
+</script>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-07-08 10:46:45
- * @LastEditTime: 2020-07-08 11:51:12
+ * @LastEditTime: 2020-07-08 14:28:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \jsQuestion\twoSun.html
@@ -28,8 +28,9 @@
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
    */
-  const list = [2, 7, 11, 15, 17, 22, 21, 23];
-  /*
+//   const list = [2, 7, 11, 15, 17, 22, 21, 23];
+  const list = [3,2,4];
+  
    function getTwoSun(arr,num) {
       let left = 0
       let right = 1
@@ -39,7 +40,7 @@
          if(num !== newVal) {
             if(right === arr.length - 1) {
                left++
-               right === left
+               right = left
             }
             right++
          }else {
@@ -50,20 +51,20 @@
       }
       return -1
    }
-   getTwoSun(list,25)
-*/
-function getInd(arr,num) {
-   const map = new Map()
-   for(let i = 0; i < arr.length ;i++) {
-      const diff = num - arr[i]
-      map.set(arr[i],i)
-      if(map.has(diff)) {
-         return [map.get(diff),i]
-      }
+   getTwoSun(list,6)
+
+// function getInd(arr,num) {
+//    const map = new Map()
+//    for(let i = 0; i < arr.length ;i++) {
+//       const diff = num - arr[i]
+//       map.set(arr[i],i)
+//       if(map.has(diff)) {
+//          return [map.get(diff),i]
+//       }
       
-   }
-}
-getInd(list,25)
-console.log(getInd(list,25));
+//    }
+// }
+// getInd(list,25)
+// console.log(getInd(list,25));
 
 </script>
