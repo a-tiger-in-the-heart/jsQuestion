@@ -1,76 +1,96 @@
 /*
  * @Author: your name
  * @Date: 2020-07-09 17:39:14
- * @LastEditTime: 2020-07-09 17:42:42
+ * @LastEditTime: 2020-07-13 11:33:47
  * @LastEditors: your name
  * @Description: In User Settings Edit
  * @FilePath: \jsQuestion\truthToPromise.js
  */ 
+/**
+ * Promise类实现原理
+ * 构造函数传入一个function，有两个参数，resolve：成功回调; reject：失败回调
+ * state: 状态存储 [PENDING-进行中 RESOLVED-成功 REJECTED-失败]
+ * doneList: 成功处理函数列表
+ * failList: 失败处理函数列表
+ * done: 注册成功处理函数
+ * fail: 注册失败处理函数
+ * then: 同时注册成功和失败处理函数
+ * always: 一个处理函数注册到成功和失败
+ * resolve: 更新state为：RESOLVED，并且执行成功处理队列
+ * reject: 更新state为：REJECTED，并且执行失败处理队列
+**/
 
-   const fs = require('fs');
-  //定义三种状态
-  const PENDING = "pending";
-  const FULFILLED = "fulfilled";
-  const REJECTED = "rejected";
-
-  function MyPromise(executor) {
-    let self = this; // 缓存当前promise实例
-    self.value = null;
-    self.error = null;
-    self.status = PENDING;
-    self.onFulfilled = null; //成功的回调函数
-    self.onRejected = null; //失败的回调函数
-
-    const resolve = (value) => {
-      if (self.status !== PENDING) return;
-      setTimeout(() => {
-        self.status = FULFILLED;
-        self.value = value;
-        self.onFulfilled(self.value); //resolve时执行成功回调
-      });
-    };
-
-    const reject = (error) => {
-      if (self.status !== PENDING) return;
-      setTimeout(() => {
-        self.status = REJECTED;
-        self.error = error;
-        self.onRejected(self.error); //resolve时执行成功回调
-      });
-    };
-    executor(resolve, reject);
+class PromiseNew {
+  constructor(fn) {
+    this.state = 'PENDING';
+    this.doneList = [];
+    this.failList = [];
+    fn(this.resolve.bind(this), this.reject.bind(this));
   }
-  MyPromise.prototype.then = function (onFulfilled, onRejected) {
-    if (this.status === PENDING) {
-      this.onFulfilled = onFulfilled;
-      this.onRejected = onRejected;
-    } else if (this.status === FULFILLED) {
-      //如果状态是fulfilled，直接执行成功回调，并将成功值传入
-      onFulfilled(this.value);
+
+  // 注册成功处理函数
+  done(handle) {
+    if (typeof handle === 'function') {
+      this.doneList.push(handle);
     } else {
-      //如果状态是rejected，直接执行失败回调，并将失败原因传入
-      onRejected(this.error);
+      throw new Error('缺少回调函数');
     }
     return this;
-  };
-  let promise1 = new MyPromise((resolve, reject) => {
-    fs.readFile("./001.txt", (err, data) => {
-      if (!err) {
-        resolve(data);
-      } else {
-        reject(err);
-      }
-    });
-  });
+  }
 
-  let x1 = promise1.then((data) => {
-    console.log("第一次展示", data.toString());
-  });
+  // 注册失败处理函数
+  fail(handle) {
+    if (typeof handle === 'function') {
+      this.failList.push(handle);
+    } else {
+      throw new Error('缺少回调函数');
+    }
+    return this;
+  }
 
-  let x2 = promise1.then((data) => {
-    console.log("第二次展示", data.toString());
-  });
+  // 同时注册成功和失败处理函数
+  then(success, fail) {
+    this.done(success || function () { }).fail(fail || function () { });
+    return this;
+  }
 
-  let x3 = promise1.then((data) => {
-    console.log("第三次展示", data.toString());
-  });
+  // 一个处理函数注册到成功和失败
+  always(handle) {
+    this.done(handle || function () { }).fail(handle || function () { });
+    return this;
+  }
+
+  // 更新state为：RESOLVED，并且执行成功处理队列
+  resolve() {
+    this.state = 'RESOLVED';
+    let args = Array.prototype.slice.call(arguments);
+    setTimeout(function () {
+      this.doneList.forEach((item, key, arr) => {
+        item.apply(null, args);
+        arr.shift();
+      });
+    }.bind(this), 200);
+  }
+
+  // 更新state为：REJECTED，并且执行失败处理队列
+  reject() {
+    this.state = 'REJECTED';
+    let args = Array.prototype.slice.call(arguments);
+    setTimeout(function () {
+      this.failList.forEach((item, key, arr) => {
+        item.apply(null, args);
+        arr.shift();
+      });
+    }.bind(this), 200);
+  }
+}
+
+// 下面一波骚操作
+new PromiseNew((resolve, reject) => {
+  resolve('hello world');
+  // reject('you are err');
+}).done((res) => {
+  console.log(res);
+}).fail((res) => {
+  console.log(res);
+})
