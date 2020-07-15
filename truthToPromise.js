@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-07-09 17:39:14
- * @LastEditTime: 2020-07-13 11:33:47
- * @LastEditors: your name
+ * @LastEditTime: 2020-07-13 13:45:15
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \jsQuestion\truthToPromise.js
  */ 
@@ -30,9 +30,16 @@ class PromiseNew {
 
   // 注册成功处理函数
   done(handle) {
+    console.log(typeof handle);
+    console.log( handle);
+    
     if (typeof handle === 'function') {
+      console.log('function');
+      
       this.doneList.push(handle);
     } else {
+      console.log('no function');
+      
       throw new Error('缺少回调函数');
     }
     return this;
@@ -86,11 +93,25 @@ class PromiseNew {
 }
 
 // 下面一波骚操作
-new PromiseNew((resolve, reject) => {
-  resolve('hello world');
-  // reject('you are err');
-}).done((res) => {
-  console.log(res);
-}).fail((res) => {
-  console.log(res);
+// new PromiseNew((resolve, reject) => {
+//   resolve('hello world');
+//   // reject('you are err');
+// }).done((res) => {
+//   console.log(res);
+// }).fail((res) => {
+//   console.log(res);
+// })
+const promise01 = new PromiseNew((resolve,reject) => {
+  resolve('i am one')
+  console.log('i am one');
+  
 })
+const promise02 = new PromiseNew((resolve,reject) => {
+  resolve('i am two')
+  console.log('i am two');
+})
+const promise03 = new PromiseNew((resolve,reject) => {
+  resolve('i am three')
+  console.log('i am three');
+})
+promise01.done(promise02).done(promise03)

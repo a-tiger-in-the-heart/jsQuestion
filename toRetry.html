@@ -1,0 +1,52 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-14 16:45:29
+ * @LastEditTime: 2020-07-14 17:57:14
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\toRetry.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+   // 第 159 题：实现 Promise.retry，成功后 resolve 结果，失败后重试，尝试超过一定次数才真正的 reject
+     function getNum() {
+        return new Promise((resolve,reject) => {
+           let num = Math.ceil(Math.random()*50)
+           console.log('自动生成数字:'+num);
+           if (num <= 10) {
+              console.log('数字小于10符合标准');
+              resolve('数字小于10符合标准')
+           }else {
+              console.log('数字大于于10不符合标准');
+              reject('数字大于于10不符合标准')
+           }
+        })
+     }
+     Promise.retry = function (getNum,times,delay) {
+        return new Promise((resolve, reject) => {
+           function alwaysGetNum() {
+              getNum().then().catch((erro) => {
+                 console.log(`还有${times-1}次机会`);
+                 if(0 === times) {
+                    reject(erro)
+                 }else {
+                    times--
+                    setTimeout(() => {
+                     alwaysGetNum()
+                    }, delay);
+                 }
+              })
+           }
+           alwaysGetNum()
+        })
+     }
+     Promise.retry(getNum,5,1000)
+</script>

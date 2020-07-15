@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-07-09 16:18:02
- * @LastEditTime: 2020-07-09 16:26:09
+ * @LastEditTime: 2020-07-14 16:46:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \jsQuestion\eventLoop.html
@@ -30,6 +30,21 @@
   }, 0);
   console.log("start");
   /*
+  1.promise1 压入微任务队列
+  2.settimeout1 压入宏任务延时队列
+  3.执行 宏任务 普通队列 start
+  4.执行微任务队列 promise1 
+  5.执行 宏任务 普通队列 promise1
+  6.把settimeout2 压入宏任务 延时队列
+  7. 执行延时队列中的 settimeout1
+  8. 执行 settimeout1中的 同步任务 settimeout1
+  9.把promise2 压入微任务队列  settimeout 出队列 检查 微任务 执行 微任务队列中的 promise2
+  10. 执行延时队列中的 settimeout2 
+  
+  
+  */
+
+  /*
    1.整个脚本作为第一个宏任务执行
    2.先执行同步代码 打印 start
    3.promise 放入微任务队列
@@ -43,4 +58,9 @@
    Promise2
    setTimeout2
 */
+  // console.log("start");
+  // Promise.resolve().then(() => {
+  //   console.log("Promise2");
+  // });
+  // console.log('end');
 </script>
