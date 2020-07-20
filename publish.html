@@ -1,0 +1,67 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-20 15:49:29
+ * @LastEditTime: 2020-07-20 16:44:00
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\publish.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="p"></p>
+    <!-- <button id="btn">点击</button> -->
+    <input type="text" id="int">
+  </body>
+</html>
+<script>
+  function pubSub() {
+    const subScribers = {};
+    // 订阅者
+    function subscriber(eventName, callback) {
+      if (!Array.isArray(subScribers[eventName])) {
+        subScribers[eventName] = [];
+      }
+      subScribers[eventName].push(callback);
+      const index = subScribers[eventName].length - 1;
+      return {
+        unsubScribers() {
+          subScribers[eventName].splice(index, 1);
+        },
+      };
+    }
+    // 发布者
+    function publisher(eventName, data) {
+      if (!Array.isArray(subScribers[eventName])) {
+        return;
+      }
+      subScribers[eventName].forEach((callback) => {
+        callback(data);
+      });
+    }
+    return {   
+      subscriber,
+      publisher,
+    };
+  }
+  const newEvent = pubSub();
+  const { unsubScribers } = newEvent.subscriber("show-age", function (data) {
+    console.log(data);
+  });
+  unsubScribers();
+  newEvent.publisher("show-age", 18);
+ 
+  newEvent.subscriber('change',function(data){
+   const int = document.querySelector("#p")
+   // console.log(data,int.innerHTML);
+   int.innerHTML = data
+  })
+ document.addEventListener('input',function(e){
+   newEvent.publisher("change",e.target.value);
+ },false)
+</script>
