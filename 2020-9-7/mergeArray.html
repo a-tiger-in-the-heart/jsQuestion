@@ -1,0 +1,54 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-07 16:35:02
+ * @LastEditTime: 2020-09-07 17:17:24
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\2020-9-7\mergeArray.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+         给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+说明:
+初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+输入:
+nums1 = [1,2,3,0,0,0], m = 3
+nums2 = [2,5,6],       n = 3
+
+输出: [1,2,2,3,5,6]
+
+      
+       */
+      const nums1 = [1, 2, 3, 0, 0, 0];
+      const nums2 = [2, 5, 6];
+      var merge = function (nums1, m, nums2, n) {
+         let ind1 = m - 1
+         let ind2 = n - 1
+         let tail = m + n - 1
+         while (ind2 >= 0) {
+            if(nums1[ind1] > nums2[ind2]) {
+               nums1[tail] = nums1[ind1]
+               tail--
+               ind1--
+            }else {
+               nums1[tail] = nums2[ind2]
+               tail--
+               ind2--
+            }
+         }
+         console.log(nums1);
+         return nums1
+      };
+      merge(nums1, 3, nums2, 3);
+    </script>
+  </body>
+</html>
