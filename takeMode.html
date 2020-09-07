@@ -1,0 +1,61 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-07 11:25:49
+ * @LastEditTime: 2020-09-07 14:03:00
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\takeMode.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  /* 
+   给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+输入: [3,2,3]
+输出: 3
+    */
+  const arr = [2, 2, 1, 1, 1, 2, 2];
+//   const arr = [2];
+//   var majorityElement = function (nums) {
+//      if(nums.length===1) {
+//         console.log(nums[0]);
+//       return nums[0]
+//      }
+//     const middle = nums.length / 2
+//     const ans = {}
+//     for(let i = 0; i < nums.length; i++) {
+//       if(!ans[nums[i]]) {
+//          ans[nums[i]] = 1
+//       }else {
+//          ans[nums[i]]++
+//          if(ans[nums[i]]>middle) {
+//             console.log(nums[i]);
+//             return nums[i]
+//          }
+//       }
+//     }
+//   };
+
+var majorityElement = function(nums) {
+  let stack = []
+  for(let n of nums){
+    let m = stack.length
+    if(stack[m - 1] === n || !m){
+      stack.push(n)
+    } else {
+      stack.pop()
+    }
+  }
+  console.log(stack);
+  return stack[0]
+};
+majorityElement(arr)
+</script>
