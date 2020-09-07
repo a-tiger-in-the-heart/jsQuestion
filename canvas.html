@@ -1,0 +1,106 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-16 14:01:51
+ * @LastEditTime: 2020-07-16 16:59:30
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\canvas.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #turntable {
+        position: relative;
+      }
+      #canvas {
+        border: 1px solid #000;
+        -webkit-transform: all 6s ease;
+        transition: all 6s ease;
+      }
+      #btn {
+        position: absolute;
+        left: 120px;
+        top: 120px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #fff;
+        line-height: 60px;
+        text-align: center;
+      }
+      #btn:after {
+        position: absolute;
+        display: block;
+        content: "";
+        left: 10px;
+        top: -32px;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        border-width: 20px;
+        border-style: solid;
+        border-color: transparent;
+        border-bottom-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="turntable">
+      <canvas id="canvas" width="300" height="300">抱歉！浏览器不支持。</canvas>
+      <!-- <a id="btn" href="javascript:;">抽奖</a> -->
+    </div>
+  </body>
+</html>
+<script>
+  window.addEventListener(
+    "load",
+    function () {
+      var nums = [26, 15, 12, 5, 25, 17];
+      var colors = ["#983335","#77963f","#5d437c","#35859f","#d1702f","#365e96"];
+      var canvas = document.getElementById("canvas");
+      var btn = document.getElementById("btn");
+      if (!canvas.getContext) {
+        alert("抱歉！浏览器不支持。");
+        return;   
+      }
+      // 获取绘图上下文
+      var ctx = canvas.getContext("2d");
+      ctx.translate(150, 150)
+    
+      let start = 0
+      let end = 0
+      function pieChart() {
+         for(let i = 0; i < nums.length; i++) {
+         ctx.beginPath();
+         ctx.moveTo(0,0)
+         ctx.strokeStyle = "white";
+         ctx.fillStyle = colors[i]
+         end += (nums[i]/100*360) * Math.PI / 180
+         ctx.arc(0, 0, 150, start, end, false)
+         ctx.fill()
+         ctx.closePath();
+         ctx.stroke()
+         start += (nums[i]/100*360) * Math.PI / 180
+      }
+      }
+      function pieText() {
+         for(let i = 0; i < nums.length; i++) {
+            start = (nums[i]/100*360) * Math.PI / 360
+            ctx.rotate(start + end)
+            ctx.font = '25px scans-serif'
+            ctx.fillStyle = '#000'
+            ctx.fillText(nums[i]+'%',80,0)
+            end = (nums[i]/100*360) * Math.PI / 340
+         }
+      }
+      ctx.rotate(-Math.PI/6)
+      pieChart()
+      pieText()
+    },
+    false
+  );
+</script>

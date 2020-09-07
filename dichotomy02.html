@@ -1,0 +1,71 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-15 17:01:50
+ * @LastEditTime: 2020-07-16 10:31:17
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\dichotomy02.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   
+</body>
+</html>
+<script>
+   // 二分查找如何定位左边界和右边界 
+   var searchRange = function(nums, target) {
+  let left = 0;
+  let mid;
+  let right = nums.length;
+  while(left < right) {
+      mid = (left + right) >>> 1;
+      if (nums[mid] > target) {
+          right = mid;
+          console.log(left,right,'左边界');
+          
+      } else if (nums[mid] < target) {
+          left = mid + 1;
+          console.log(left,right,'左边界');
+          
+      } else if (nums[mid] == target) {
+          right = mid;
+          console.log(left,right,'左边界');
+          
+      }
+  }
+  let leftIndex = -1, rightIndex = -1;
+  if (left == nums.length) return [-1, -1];
+  else leftIndex = nums[left] == target ? left : -1;
+  
+  left = 0; right = nums.length;
+  while(left < right) {
+      mid = (left + right) >>> 1;
+      if (nums[mid] > target) {
+          right = mid;
+          console.log(left,right,'右边界');
+      } else if (nums[mid] < target) {
+          left = mid + 1;
+          console.log(left,right,'右边界');
+      } else if (nums[mid] == target) {
+          left = mid + 1;
+          console.log(left,right,'右边界');
+      }
+  }
+  if (left == 0) return [-1, -1];
+  else rightIndex = nums[left - 1] == target ? left - 1: -1;
+  
+//   console.log(left,right);
+  return [leftIndex, rightIndex];
+};
+let arr = [1,2,3,4,5,5,6,7,8,8,9]
+   console.log(searchRange(arr,5));
+   
+
+
+</script>
