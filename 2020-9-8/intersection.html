@@ -1,0 +1,69 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-08 13:49:03
+ * @LastEditTime: 2020-09-08 13:49:58
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \jsQuestion\2020-9-8\intersection.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <script>
+      //求交集 给定两个数组，编写一个函数来计算它们的交集。
+      /* 
+               输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+               输出：[4,9]
+       */
+       /**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var intersect = function(nums1, nums2) {
+        // 存哈希表
+    // let map = {}
+    // let res = []
+    // for(let i of nums1) {
+    //     if(!map[i]) {
+    //         map[i] = 1
+    //     }else {
+    //         map[i]++
+    //     }
+    // }
+    // for(let j of nums2) {
+    //     const val = map[j]
+    //     if(val > 0) {
+    //         res.push(j)
+    //         map[j]--
+    //     }
+    // }
+    // return res
+    // 双指针
+    // 先排序 是重复的元素相邻
+    nums1.sort((a,b) => a-b)
+    nums2.sort((a,b) => a-b)
+    let ind1 = 0
+    let ind2 = 0
+    let res = []
+    while(ind1<nums1.length && ind2<nums2.length) {
+        if(nums1[ind1] < nums2[ind2]) {
+            ind1++
+        }else if(nums1[ind1] > nums2[ind2]) {
+            ind2++
+        }else {
+            res.push(nums1[ind1])
+            ind1++
+            ind2++
+        }
+    }
+    return res
+};
+   </script>
+</body>
+</html>
